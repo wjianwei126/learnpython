@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 #coding:utf-8
 
+from function import login
+card= raw_input('Please input yout cardcode:')
 
+if login(card):
+    
+        
+    
+
+
+    
+'''
 def login(code):
     f = file('code.txt')
     dict = {}
@@ -13,7 +23,7 @@ def login(code):
         return dict
     else:
         return False
-'''
+
         password =raw_input('please input your pass:')
         while i > 0:
             if dict[code] == password:
