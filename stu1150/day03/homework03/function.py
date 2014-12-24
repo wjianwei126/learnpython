@@ -18,16 +18,13 @@ pkl_file.close()
 print db_dict
 print '----------------------'
 
-
-def login(code):
-    
+def login(code):    
     if db_dict.has_key(code):
         a = db_dict[code].split(',')
         if int(a[3])== 0:
             sys.exit("Your account was clocked,please send email to administrator.")
         passwd = a[0]
         i = 3
-        return a
         while i >=0 :
             password = raw_input('please input your password:')
             if passwd != password:            
@@ -35,7 +32,7 @@ def login(code):
                 print 'You have %s times ' % i
                 if i == 0:
                     a[3] = '0'
-                    db_dict[code]= a
+                    db_dict[code]= a[0]+','+a[1]+','+a[2]+','+a[3]
                     f = file('account_info.pkl','wb')
                     pickle.dump(db_dict, f)
                     f.close()
@@ -44,19 +41,56 @@ def login(code):
  #                   sys.exit("帐号奖杯锁定")
             else:
                 print "Login success!"
-                return True
+                return a
                 break
+    
     else:
         print 'code is not exsit!'
         #a = db_dict[key].split(',')
 
-def check(code):
-    a=login(code)
-    print a 
 
-def draw(money):
-    pass
-check('900')
+def draw(code):
+    b = login(code)
+    print b 
+    #print "当前余额 %s" % b[2]
+    print "取现请按1\n查询请按2\n还款请按3\n转账轻按4\n退出请按5"
+    c = raw_input("请输入编号：")
+    if int(c) == 1:
+        d = int(raw_input('请输入取款金额：'))
+        if d > b[2]:
+            print  "超出限额请重新输入"
+        else:
+            #shouxu = d*0.005
+            b[2] = int(b[1]) - int(d) - int(d)*0.05
+            print str(b[2])
+            print b
+            db_dict[code] = str(b[0])+','+str(b[1])+','+str(b[2])+','+str(b[3])
+            print db_dict
+            #b[2] = str(b[2])        
+            #db_dict[code]= b 
+            #f = file('account_info.pkl','wb')
+            #pickle.dump(db_dict, f)
+            print "当前余额 %s" % b[2]
+    elif int(c) == 2:
+        print "当前余额 %s" % b[2]
+    
+    elif int(c) == 3:
+        huankuan= raw_input('请输入还款金额：')
+        b[2] =int(b[2]) + int(huankuan)
+        print "当前可用余额%s" % b[2]
+    elif int(c) == 4:
+        zhuanzhang = raw_input('请输入转账账户：')
+        jine = raw_input('转账金额：')
+        if jine > b[2]:
+            print "余额不足！！"    
+    elif int(c) == 5:
+        sys.exit()
+    
+    else:
+        print "输入错误，请重新输入"
+
+#login('700')
+
     
 
 '''

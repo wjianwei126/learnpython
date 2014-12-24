@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-from function import login
+from function import login,draw
 card= raw_input('Please input yout cardcode:')
 
-if login(card):
+draw(card)
     
         
     
