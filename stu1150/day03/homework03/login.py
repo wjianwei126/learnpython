@@ -1,43 +1,61 @@
 #!/usr/bin/env python
 #coding:utf-8
+import pickle
+import sys
+import time
+#print time.strftime('%Y-%m-%d',time.localtime(time.time()))
+now_day = int(time.strftime('%d',time.localtime(time.time())))
+if now_day >= 10:
+    lixi = (now_day -10)*0.05
+else:
+    lixi = (now_day + 20)*0.05
 
-from function import login,draw
-card= raw_input('Please input yout cardcode:')
-
-draw(card)
-    
-        
-    
+from function import login
+card= raw_input('请输入信用卡帐号:')
 
 
-    
-'''
-def login(code):
-    f = file('code.txt')
-    dict = {}
-    i = 3
-    for line in f.readlines():
-        a = line.strip().split('\t')
-        dict[a[0]] = a[1]
-    #if  dict.has_key(code):
-        return dict
+pkl_file= open('account_info.pkl','rb')
+db_dict = pickle.load(pkl_file)
+pkl_file.close()
+
+b = login(db_dict,card)
+#print "当前余额 %s" % b[2]
+print "取现请按1\n查询请按2\n还款请按3\n转账轻按4\n退出请按5"
+c = raw_input("请输入编号：")
+if int(c) == 1:
+    d = int(raw_input('请输入取款金额：'))
+    if d > b[2]:
+        print  "超出限额请重新输入"
     else:
-        return False
-
-        password =raw_input('please input your pass:')
-        while i > 0:
-            if dict[code] == password:
-                print 'password is right!'
-            else:
-                i -=1
-                break
-            print "you have %s times input" % i
-
-             
-            
-        #if dict[code] == password:
-        #    return True
-        #else:      
-
+        #shouxu = d*0.005
+        b[2] = int(b[1]) - int(d) - int(d)*0.05
+        print str(b[2])
+        print b
+        db_dict[card] = b
+        print db_dict
+        b[2] = str(b[2])        
+        db_dict[card]= b 
+        f = file('account_info.pkl','wb')
+        pickle.dump(db_dict, f)
+        pkl_file.close()
+        print "当前余额 %s" % b[2]
+elif int(c) == 2:
+    print "当前余额 %s" % b[2]
+    
+elif int(c) == 3:
+    huankuan= raw_input('请输入还款金额：')
+    b[2] =int(b[2]) + int(huankuan) - lixi
+    db_dict[card] = b
+    f = file('account_info.pkl','wb')
+    pickle.dump(db_dict, f)
+elif int(c) == 4:
+    zhuanzhang = raw_input('请输入转账账户：')
+    jine = raw_input('转账金额：')
+    if jine > b[2]:
+        print "余额不足！！"    
+elif int(c) == 5:
+    sys.exit()
+    
+else:
+    print "输入错误，请重新输入"
         
-'''
