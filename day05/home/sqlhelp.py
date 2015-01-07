@@ -3,6 +3,7 @@
 
 import MySQLdb
 
+
 class MysqlHelper(object):
     
     def __init__(self):
@@ -30,7 +31,7 @@ class MysqlHelper(object):
             print data
         except Exception,e:
             data =None
-            #写个日志
+            #鍐欎釜鏃ュ織
         finally:
             cur.close()
             conn.close()
@@ -44,10 +45,10 @@ class MysqlHelper(object):
             cur.execute(sql,paramters)
             #cur.execute("select Name,Nickname from admin where Name=%s",(admin,))
             data = cur.fetchone()
-            return True
+            return data
         except Exception,e:
             data =None
-            #写个日志
+            #鍐欎釜鏃ュ織
         finally:
             cur.close()
             conn.close()
@@ -67,34 +68,36 @@ class MysqlHelper(object):
             conn.rollback()
     
     
-class admin(object):
+class Admin(object):
     def __init__(self):
         self.__helper = MysqlHelper()
+        
     def GetSingle(self,param):
         sql = "select * from admin where Name=%s"
         para = (param,)
         return self.__helper.GetSingle(sql,para)
-    
+ 
+ 
+class Userinfo():
+    def __init__(self):
+        self.__helper = MysqlHelper()
+           
     def GetId(self,username):
         sql = "select id from userinfo where username= %s"
         para = (username,)
         return self.__helper.GetId(sql,para)
     
-    def AddUser(self,username,password):
+    def AddUser(self,username,email,password):
         #print username,password
-        id = self.GetSingle(username)
-        
-        #sql = "INSERT INTO userinfo(username,password) VALUES (%s,%s)"
-        #INSERT INTO `web`.`userinfo` (`id`, `username`, `password`) VALUES ('3', 'abc', 'abc');
-        #para = (param,password,)
-        #return self.__helper.AddUser(sql, para)
+        sql = "INSERT INTO userinfo(username,email,password) VALUES (%s,%s,%s)"
+        para = (username,email,password,)
+        return self.__helper.AddUser(sql, para)
+
+    def DelUser(self,username):
+        #print username,password
+        sql = "delete from userinfo where username= %s"
+        para = (username,)
+        return self.__helper.AddUser(sql, para)
     
     
-if __name__=="__main__":
-    username = raw_input("Please input usrname:")
-    password=raw_input("Please input password:")
-    a = admin()
-    #print a.GetSingle('admin')
-    #print a.AddUser(username,password)
-    print a.GetId(username)
     

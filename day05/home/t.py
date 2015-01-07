@@ -1,8 +1,15 @@
 #!/usr/bin/evn python
 #coding:utf-8
 
+import SocketServer
+from SocketServer import BaseRequestHandler
+from server import *
 
-a = '123143'
-if has_123 == True: 
-    print 'asdf'
-    
+
+ip=('127.0.0.1',9001)
+sock = SocketServer.ThreadingTCPServer(ip,MyServer)
+
+sock.serve_forever()
+
+
+
