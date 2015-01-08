@@ -9,32 +9,33 @@ from sqlhelp import *
 #while True:
 
 sk = socket.socket()
-ip_port = ('127.0.0.1',9004)
+ip_port = ('127.0.0.1',9005)
 sk.bind(ip_port)
 sk.listen(5)
-conn,addr = sk.accept()
+
 
 
 def login(u,p):
+    conn,addr = sk.accept()
     a = Userinfo()
     user = a.GetId(u)
+    print user
     if user == None:
-        print "not exsit!"
-        data = "Fail"
+        data ='Faild'
         conn.sendall(data)
+        return data
     else:
         if p != user['password']:
             data= 'Password is Wrong!'
             conn.sendall(data)
             return False
         else:
-            data = 'login'
-            conn.sendall(data)
             return True
    
 
 def connect():   
     flag = True
+    conn,addr = sk.accept()
     conn.sendall('Hello,what can I do for you?')
     while flag:   
         data =conn.recv(1024)
@@ -45,21 +46,22 @@ def connect():
         else:
             inp = raw_input(':').strip()
             conn.sendall(inp)
-        
     conn.close()
 
 
-def auth():
-    while True:
-    #    print addr
+
+def accept():
+    flag = True
+    while flag:
+        conn,addr = sk.accept()
         username = conn.recv(1024)
         password = conn.recv(1024)
-        if login(username, password) == True:
-            print "Login success"
-            break
+        print login(username,password)
+#        if login(username, password)== True:
+#            flag == False
     return True
-if auth():
-    connect()
+accept()
+
 '''
 
 if login(username,password):

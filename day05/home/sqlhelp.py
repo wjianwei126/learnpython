@@ -67,6 +67,26 @@ class MysqlHelper(object):
             print 'error'
             conn.rollback()
     
+    def AddMsg(self,sql,paramters):
+        conn = self.__Conn()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(sql,paramters)
+            data = conn.commit()
+            id=cursor.lastrowid
+            return id
+        except:
+            print 'error'
+            conn.rollback()
+            
+    def UpdateMsg(self,sql,paramters):
+        conn = self.__Conn()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(sql,paramters)
+            data = conn.commit()
+        except:
+            print 'error'
     
 class Admin(object):
     def __init__(self):
@@ -78,12 +98,12 @@ class Admin(object):
         return self.__helper.GetSingle(sql,para)
  
  
-class Userinfo():
+class Userinfo:
     def __init__(self):
         self.__helper = MysqlHelper()
            
     def GetId(self,username):
-        sql = "select id from userinfo where username= %s"
+        sql = "select id,password from userinfo where username= %s"
         para = (username,)
         return self.__helper.GetId(sql,para)
     
@@ -97,7 +117,20 @@ class Userinfo():
         #print username,password
         sql = "delete from userinfo where username= %s"
         para = (username,)
-        return self.__helper.AddUser(sql, para)
-    
-    
-    
+        return self.__helper.DelUser(sql, para)
+
+class Msg:
+    def __init__(self):
+        self.__helper = MysqlHelper()
+    def AddMsg(self,mid,username,msg):
+        sql = "INSERT INTO msg(Mid,Username,Message) VALUES (%s,%s,%s)"
+        para = (mid,username,msg,)
+        return self.__helper.AddMsg(sql, para)
+
+    def UpdateMsg(self,mid,msg):
+        sql = "INSERT INTO msg(Mid,Username,Message) VALUES (%s,%s,%s)"
+        para = (mid,msg,)
+        return self.__helper.AddMsg(sql, para)
+
+
+ 
