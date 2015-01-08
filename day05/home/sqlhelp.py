@@ -2,6 +2,13 @@
 #coding:utf-8
 
 import MySQLdb
+import md5
+
+
+def makemd5(value):
+    hash = md5.new()
+    hash.update(value)
+    return hash.hexdigest()
 
 
 class MysqlHelper(object):
@@ -22,6 +29,7 @@ class MysqlHelper(object):
     def GetSingle(self,sql,paramters):
         conn = self.__Conn()
         if not conn:
+            print 'can not connect!'
             return None
         try:
             cur = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
@@ -31,7 +39,8 @@ class MysqlHelper(object):
             print data
         except Exception,e:
             data =None
-            #写个日志
+            print 'can not connect!'
+            
         finally:
             cur.close()
             conn.close()
@@ -43,7 +52,6 @@ class MysqlHelper(object):
         try:
             cur = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
             cur.execute(sql,paramters)
-            #cur.execute("select Name,Nickname from admin where Name=%s",(admin,))
             data = cur.fetchone()
             return data
         except Exception,e:
@@ -87,6 +95,18 @@ class MysqlHelper(object):
             data = conn.commit()
         except:
             print 'error'
+
+    def GetMid():
+        conn = self.Conn()
+        cursor = conn.curson()
+        try:
+            cursor.execute(sql,paramters)
+            data = cur.fetchone()
+            return data
+        except:
+            print 'error'
+            
+        
     
 class Admin(object):
     def __init__(self):
@@ -107,10 +127,10 @@ class Userinfo:
         para = (username,)
         return self.__helper.GetId(sql,para)
     
-    def AddUser(self,username,email,password):
+    def AddUser(self,username,password):
         #print username,password
-        sql = "INSERT INTO userinfo(username,email,password) VALUES (%s,%s,%s)"
-        para = (username,email,password,)
+        sql = "INSERT INTO userinfo(username,password) VALUES (%s,%s)"
+        para = (username,password,)
         return self.__helper.AddUser(sql, para)
 
     def DelUser(self,username):
@@ -122,13 +142,18 @@ class Userinfo:
 class Msg:
     def __init__(self):
         self.__helper = MysqlHelper()
+    def Getid(self,mid):
+        sql = "SELECT id FROM msg where mid=%s"
+        para = (mid,)
+        return self.__helper.GetMid(sql,para)
+        
     def AddMsg(self,mid,username,msg):
         sql = "INSERT INTO msg(Mid,Username,Message) VALUES (%s,%s,%s)"
         para = (mid,username,msg,)
         return self.__helper.AddMsg(sql, para)
 
     def UpdateMsg(self,mid,msg):
-        sql = "INSERT INTO msg(Mid,Username,Message) VALUES (%s,%s,%s)"
+        sql = "UPDATE msg SET  (mid, message) WHERE id VALUES (%d,%s,%d);
         para = (mid,msg,)
         return self.__helper.AddMsg(sql, para)
 

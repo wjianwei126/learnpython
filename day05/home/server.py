@@ -5,11 +5,10 @@ import socket
 from sqlhelp import *
 
 
-
 #while True:
 
 sk = socket.socket()
-ip_port = ('127.0.0.1',9004)
+ip_port = ('127.0.0.1',9001)
 sk.bind(ip_port)
 sk.listen(5)
 conn,addr = sk.accept()
@@ -18,27 +17,35 @@ conn,addr = sk.accept()
 def login(u,p):
     a = Userinfo()
     user = a.GetId(u)
-    if user == None:
-        print "not exsit!"
-        data = "Fail"
-        conn.sendall(data)
-    else:
-        if p != user['password']:
+    id  = user['id']
+    if user != None:
+        if makemd5(p) == user['password']:
+            conn.sendall('1')
+            return id
+        else:
             data= 'Password is Wrong!'
             conn.sendall(data)
             return False
-        else:
-            data = 'login'
-            conn.sendall(data)
-            return True
-   
+    else:
+        data = "The user is not exsit!"
+        conn.sendall(data)
+        return False
+    return id 
 
-def connect():   
+def connect(oid):   
+    b = Msg()
+    v = b.Getid(oid)
+    
+        
     flag = True
     conn.sendall('Hello,what can I do for you?')
     while flag:   
         data =conn.recv(1024)
         print data
+        if v == None:
+            b.AddMsg(oid, data)
+        else:
+            b.UpdateMsg(mid,oid,data)
         if data == 'exit':
             conn.sendall('close')
             flag = False
@@ -54,16 +61,12 @@ def auth():
     #    print addr
         username = conn.recv(1024)
         password = conn.recv(1024)
-        if login(username, password) == True:
+        id = login(username, password)
+        if id != None:
             print "Login success"
             break
-    return True
-if auth():
-    connect()
-'''
-
-if login(username,password):
-    connect()
-else:
-    print "Login Failed retry please."
-'''
+    return id
+    
+id = auth()
+if id != None:
+    connect(id)
