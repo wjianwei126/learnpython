@@ -1,11 +1,14 @@
 eclipse.preferences.version=1
+encoding//home/__init__.py=utf-8
 encoding//home/admin.py=utf-8
 encoding//home/client.py=utf-8
+encoding//home/conf.py=utf-8
 encoding//home/server.py=utf-8
+encoding//home/server2.py=utf-8
 encoding//home/sqlhelp.py=utf-8
 encoding//home/t.py=utf-8
-encoding//mysql/demo_sql.py=utf-8
-encoding//mysql/mysql_helper.py=utf-8
+encoding//next/demo_sql.py=utf-8
+encoding//next/mysql_helper.py=utf-8
 encoding//node/reg.py=utf-8
 encoding//note/class1.py=utf-8
 encoding//note/class2.py=utf-8

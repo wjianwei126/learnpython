@@ -9,9 +9,8 @@ class MyServer(SocketServer.BaseRequestHandler):
     def handle(self):
         print self.request
         print self.client_address
-        print self.request.recv(1024).strip()
         
     
-ip=('127.0.0.1',9001)
+ip=('127.0.0.1',9000)
 sock = SocketServer.ThreadingTCPServer(ip,MyServer)
 sock.serve_forever()

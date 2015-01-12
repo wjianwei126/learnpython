@@ -3,6 +3,7 @@
 
 import MySQLdb
 import md5
+import conf
 
 
 def makemd5(value):
@@ -14,10 +15,7 @@ def makemd5(value):
 class MysqlHelper(object):
     
     def __init__(self):
-        self.__Host = 'kali'
-        self.__User = 'dbuser'
-        self.__Passwd = '0110'
-        self.__DB = 'web'
+        self.__connDict = conf.conn_dict
         
     def __Conn(self):
         try:
