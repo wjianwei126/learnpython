@@ -3,7 +3,7 @@
 
 import MySQLdb
 import md5
-import conf
+
 
 
 def makemd5(value):
@@ -15,7 +15,7 @@ def makemd5(value):
 class MysqlHelper(object):
     
     def __init__(self):
-        self.__connDict = conf.conn_dict
+        self.__connDict = {'host':'127.0.0.1','user':'root','passwd':'0110','db':'web'} 
         
     def __Conn(self):
         try:
@@ -94,12 +94,12 @@ class MysqlHelper(object):
         except:
             print 'error'
 
-    def GetMid():
+    def GetMid(self,sql,paramters):
         conn = self.Conn()
         cursor = conn.curson()
         try:
             cursor.execute(sql,paramters)
-            data = cur.fetchone()
+            data = cursor.fetchone()
             return data
         except:
             print 'error'
@@ -116,7 +116,7 @@ class Admin(object):
         return self.__helper.GetSingle(sql,para)
  
  
-class Userinfo:
+class Userinfo():
     def __init__(self):
         self.__helper = MysqlHelper()
            
@@ -137,7 +137,7 @@ class Userinfo:
         para = (username,)
         return self.__helper.DelUser(sql, para)
 
-class Msg:
+class Msg():
     def __init__(self):
         self.__helper = MysqlHelper()
     def Getid(self,mid):
@@ -151,7 +151,7 @@ class Msg:
         return self.__helper.AddMsg(sql, para)
 
     def UpdateMsg(self,mid,msg):
-        sql = "UPDATE msg SET  (mid, message) WHERE id VALUES (%d,%s,%d);
+        sql = "UPDATE msg SET  (mid, message) WHERE id VALUES (%d,%s,%d)"
         para = (mid,msg,)
         return self.__helper.AddMsg(sql, para)
 
