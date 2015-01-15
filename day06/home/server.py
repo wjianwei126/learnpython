@@ -25,16 +25,18 @@ class MyServer(SocketServer.BaseRequestHandler):
    
     def handle(self):
         a=Userinfo()
-        
-        des_path= "d:\tmp"
+        des_path= "/tmp/"
         recv_size =0
         print 'Go a conn from :',self.client_address
+
         data =self.request.recv(1024).split(' ')
         username = data[0]
+        passwd = a.GetId(username)
         
-        user= a.GetId(username)
-        if makemd5(username[1]) != user[1]:
-            data = False
+        print makemd5(data[1])
+        if makemd5(data[1]) != passwd['password']:
+            print username 
+            data = 'Login Failed!'
             self.request.send(data)
         else:
             pre_data = self.request.recv(1024)
@@ -62,6 +64,6 @@ class MyServer(SocketServer.BaseRequestHandler):
 
         
     
-ip=('127.0.0.1',9000)
+ip=('127.0.0.1',9001)
 sock = SocketServer.ThreadingTCPServer(ip,MyServer)
 sock.serve_forever()

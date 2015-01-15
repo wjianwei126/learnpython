@@ -4,8 +4,6 @@
 import MySQLdb
 import md5
 
-
-
 def makemd5(value):
     hash = md5.new()
     hash.update(value)
@@ -15,11 +13,11 @@ def makemd5(value):
 class MysqlHelper(object):
     
     def __init__(self):
-        self.__connDict = {'host':'127.0.0.1','user':'root','passwd':'0110','db':'web'} 
+        self.__connDict = {'host':'192.168.152.128','user':'dbuser','passwd':'0110','db':'web'} 
         
     def __Conn(self):
         try:
-            conn = MySQLdb.connect(host=self.__Host,user=self.__User,passwd=self.__Passwd,db=self.__DB)
+            conn = MySQLdb.connect(**self.__connDict)
         except Exception,e:
             data = 'can not connect!'
             conn = data
@@ -51,13 +49,10 @@ class MysqlHelper(object):
             cur = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
             cur.execute(sql,paramters)
             data = cur.fetchone()
+            print data 
             return data
         except Exception,e:
             data =None
-            #写个日志
-        finally:
-            cur.close()
-            conn.close()
         return data
     
     def AddUser(self,sql,paramters):

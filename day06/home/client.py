@@ -6,7 +6,7 @@ import os
 
 skk=socket.socket()
 serveraddress = raw_input('Please input ServerAddress:').strip()
-ip_port = (serveraddress,9000)
+ip_port = (serveraddress,9001)
 skk.connect(ip_port)
 
 
