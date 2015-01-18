@@ -1,0 +1,36 @@
+-- VERSION_4
+-- START DISKCACHE
+Z:\workspace\.metadata\.plugins\org.eclipse.core.resources\.projects\day07\com.python.pydev.analysis\v2_indexcache
+demo.threading_demo|1421476462948|Z:\workspace\day07\demo\threading_demo.py
+demo.process_demo|1421483645525|Z:\workspace\day07\demo\process_demo.py
+paramiko.__init__|1421485818657|Z:\workspace\day07\paramiko\__init__.py
+demo.__init__|1421465077369|Z:\workspace\day07\demo\__init__.py
+-- END DISKCACHE
+-- START DICTIONARY
+3
+1=demo.threading_demo
+3=MyThread
+2=demo.process_demo
+-- END DICTIONARY
+-- START TREE 1
+15
+!<m|0|
+F|0|
+M|0|
+a|1|a!11@
+bar|1|Bar!18@
+foo|1|Foo!18@
+fun|1|Func!10@
+loc|1|lock!11@
+myt|1|MyThread!9@
+p|0|
+poo|1|pool!19@
+t|0|
+t1|1|t1!11@
+t2|1|t2!11@
+t3|1|t3!11@
+-- END TREE
+-- START TREE 2
+1
+run|1|run!3&10@
+-- END TREE

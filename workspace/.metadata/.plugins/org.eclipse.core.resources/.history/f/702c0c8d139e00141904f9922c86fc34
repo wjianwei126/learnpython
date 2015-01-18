@@ -1,0 +1,10 @@
+#!/user/bin/env python
+#coding:utf-8
+
+#¶à½ø³Ì
+from multiprocessing import Process
+
+def foo(i):
+    print i
+p= Process(target=foo,args=(1,))
+p.start()

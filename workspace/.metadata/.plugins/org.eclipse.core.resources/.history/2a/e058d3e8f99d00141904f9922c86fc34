@@ -1,0 +1,12 @@
+#!/user/bin/env python
+#coding:utf-8
+import threading
+
+def Func(i):
+    print i
+
+
+t=threading.Thread(target=Func,args=(1,))
+t.start()
+
+print 'OVER.'

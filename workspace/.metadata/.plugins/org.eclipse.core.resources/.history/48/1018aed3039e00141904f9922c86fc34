@@ -1,0 +1,71 @@
+#!/user/bin/env python
+#coding:utf-8
+
+import threading
+import time 
+from test.test_threading_local import target
+'''
+def Func(i):
+    time.sleep(1)
+    print i
+    for item in range(10):
+        print i,item
+
+
+t=threading.Thread(target=Func,args=(1,))
+t.start()
+t.join()    #线程串行
+
+t2 = threading.Thread(target=Func,args=(2,))
+t2.start()
+#t2.join(1)
+
+print 'OVER.'
+'''
+'''
+#run
+def Func(i):
+    print i
+    
+class MyThread(threading.Thread):
+    def run(self):
+        print 'soptopss'
+        threading.Thread.run(self)
+
+t1=MyThread(target=Func,args=(10,))
+t1.start()
+'''
+
+import threading
+a =1 
+
+lock= threading.Lock()
+def Func(i):
+    lock.acquire()
+    global a
+    a +=1
+    print a
+    lock.release()
+    time.sleep(1)
+    
+
+class MyThread(threading.Thread):
+    def run(self):
+        threading.Thread.run(self)
+
+t1 =MyThread(target=Func,args=(1,))
+t1.start()
+
+t2=MyThread(target=Func,args=(1,)) 
+t2.start()   
+        
+        
+        
+
+
+
+
+
+
+
+
